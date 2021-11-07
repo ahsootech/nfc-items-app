@@ -46,7 +46,7 @@ class Database:
                 "Registration Successfully check the email ID")}
             return product
         except (NotUniqueError, DuplicateKeyError):
-            return {"name": product.items.name, "detail": str("Already Taken this Email ID")}
+            return {"name": product.items.name, "detail": str("product insert error")}
 
     def Get_products(self):
         try:
@@ -56,5 +56,14 @@ class Database:
                 json_doc = json.dumps(product, default=json_util.default)
                 products.append(json.loads(json_doc))
             return {"details": "Successfully", "products": products}
+        except Exception as e:
+            return {"details": str(e), "statuscode": 400}
+
+    def Get_product_byid(self, pid):
+        try:
+            result = self.mydb.products.find_one(ObjectId(pid))
+            json_doc = json.dumps(result, default=json_util.default)
+            product = json.loads(json_doc)
+            return {"details": "Successfully", "product": product}
         except Exception as e:
             return {"details": str(e), "statuscode": 400}

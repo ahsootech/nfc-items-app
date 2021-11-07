@@ -21,3 +21,9 @@ async def Get_items():
     db = Database()
     result = db.Get_products()
     return result
+
+@product_route.get("/getproductbyid", tags=["Testing NFC"])
+async def Get_item_by_id(productid: str):
+    db = Database()
+    result = db.Get_product_byid(productid)
+    return result
